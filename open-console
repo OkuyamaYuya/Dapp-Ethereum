@@ -1,0 +1,1 @@
+geth --networkid "10" --nodiscover --datadir eth_private console 2>> eth_private/geth_err.log
