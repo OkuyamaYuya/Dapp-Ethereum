@@ -1,6 +1,6 @@
 #! /usr/bin/env sh
 name=`basename $1 | sed 's/\.[^\.]*$//'`
-result=`solc --optimize --combined-json abi,bin,interface $1`
+result=`solc --optimize --combined-json abi,bin $1`
 echo ${result}
 echo "var TestOutput = ${result}" > ./js/${name}.js
 echo "var testContract = web3.eth.contract(JSON.parse(TestOutput.contracts[\"contracts/${name}.sol:${name}\"].abi));
