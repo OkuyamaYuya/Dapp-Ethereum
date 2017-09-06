@@ -1,0 +1,13 @@
+#! /usr/bin/env sh
+name=`basename $1 | sed 's/\.[^\.]*$//'`
+echo "var TestOutput = `solc --optimize --combined-json abi,bin,interface $1`" > ./js/${name}.js
+echo "var testContract = web3.eth.contract(JSON.parse(TestOutput.contracts["contracts/Test.sol:Test"].abi));
+personal.unlockAccount(eth.accounts[0], "nun");
+var test = testContract.new({ from: eth.accounts[0], data: "0x" + TestOutput.contracts["contracts/Test.sol:Test"].bin, gas: 4700000},
+  function (e, contract) {
+    console.log(e, contract);
+    if (typeof contract.address !== 'undefined') {
+      console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+    }
+  }
+);" >> ./js/${name}.js
