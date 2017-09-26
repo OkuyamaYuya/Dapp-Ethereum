@@ -1,25 +1,27 @@
 # Dapp-eth
 
+
 ## Quick `Hello World` in Ethereum
 
-```
+```sh
 $ git clone this repository
+```
+
+Initialize Ethereum private network.
+```sh
 $ geth --datadir eth_private init eth_private/genesis.json
+```
+
+Next, Compile solidity program by solc and produce javascript file.
+```sh
 $ ./compile contracts/HelloWorld.sol
 ```
 
-```
+Finally, open console.
+```sh
 $ ./open-console
-> loadScript("HelloWorld.js")
-> var testContract = web3.eth.contract(JSON.parse(TestOutput.contracts["contracts/HelloWorld.sol:HelloWorld"].abi));
-> var test = testContract.new({ from: eth.accounts[0], data: "0x" + TestOutput.contracts["contracts/Test.sol:Test"].bin, gas: 4700000},
-  function (e, contract) {
-    console.log(e, contract);
-    if (typeof contract.address !== 'undefined') {
-         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
-    }
-  }
-);
+> loadScript("js/HelloWorld.js")
 > miner.start()
 > test.get()
+"HelloWorld!!"
 ```

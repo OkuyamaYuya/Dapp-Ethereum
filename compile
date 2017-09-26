@@ -1,4 +1,5 @@
 #! /usr/bin/env sh
+mkdir -p js
 name=`basename $1 | sed 's/\.[^\.]*$//'`
 result=`solc --optimize --combined-json abi,bin $1`
 echo ${result}
