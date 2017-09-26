@@ -1,4 +1,4 @@
-# Dapp-eth
+# Hello-Ethereum
 
 ## Quick `Hello World` in Ethereum
 
