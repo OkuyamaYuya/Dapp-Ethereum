@@ -1,6 +1,5 @@
 # Dapp-eth
 
-
 ## Quick `Hello World` in Ethereum
 
 ```sh
@@ -20,8 +19,8 @@ $ ./bin/compile contracts/HelloWorld.sol
 Finally, open console.
 ```sh
 $ ./bin/open-console
-> loadScript("js/HelloWorld.js")
 > miner.start()
+> loadScript("js/HelloWorld.js")
 > test.get()
 "HelloWorld!!"
 ```
