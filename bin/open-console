@@ -1,5 +1,9 @@
 #! /usr/bin/env sh
-geth --networkid "10" --nodiscover --datadir eth_private\
-     --unlock 0,1 --password eth_private/passwd.txt\
-     --rpc --rpcaddr "localhost" --rpcport "8545" --rpccorsdomain "*"\
+geth --networkid "1234"\
+     --nodiscover --datadir eth_private\
+     --unlock 0,1\
+     --password eth_private/passwd.txt\
+     --rpc --rpcaddr "localhost"\
+     --rpcport "8545"\
+     --rpccorsdomain "*"\
      console 2>> eth_private/geth_err.log
