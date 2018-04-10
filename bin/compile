@@ -1,16 +1,35 @@
 #! /usr/bin/env sh
 mkdir -p js
 name=`basename $1 | sed 's/\.[^\.]*$//'`
-result=`solc --optimize --combined-json abi,bin $1`
-echo ${result}
-echo "var TestOutput = ${result}" > ./js/${name}.js
-echo "var testContract = web3.eth.contract(JSON.parse(TestOutput.contracts[\"contracts/${name}.sol:${name}\"].abi));
-personal.unlockAccount(eth.accounts[0], \"nun\");
-var test = testContract.new({ from: eth.accounts[0], data: \"0x\" + TestOutput.contracts[\"contracts/${name}.sol:${name}\"].bin, gas: 4700000},
-  function (e, contract) {
-    console.log(e, contract);
-    if (typeof contract.address !== 'undefined') {
-      console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+
+if [ `which solc` ]; then
+  result=`solc --optimize --combined-json abi,bin $1`
+  echo ${result}
+  echo "var TestOutput = ${result}" > ./js/${name}.js
+  echo "var testContract = web3.eth.contract(JSON.parse(TestOutput.contracts['contracts/${name}.sol:${name}'].abi));
+  personal.unlockAccount(eth.accounts[0], 'nun');
+  var test = testContract.new({ from: eth.accounts[0], data: '0x' + TestOutput.contracts['contracts/${name}.sol:${name}'].bin, gas: 4700000},
+    function (e, contract) {
+      console.log(e, contract);
+      if (typeof contract.address !== 'undefined') {
+        console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+      }
     }
-  }
-);" >> ./js/${name}.js
+  );" >> ./js/${name}.js
+elif [ `which solcjs` ]; then
+  solcjs -o trash --optimize --abi --bin $1
+  abi=`cat trash/contracts_${name}_sol_${name}.abi`
+  bin=`cat trash/contracts_${name}_sol_${name}.bin`
+  echo "var testContract = web3.eth.contract(${abi});
+  personal.unlockAccount(eth.accounts[0], 'nun');
+  var test = testContract.new({ from: eth.accounts[0], data: '0x' + '${bin}', gas: 4700000},
+    function (e, contract) {
+      console.log(e, contract);
+      if (typeof contract.address !== 'undefined') {
+        console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+      }
+    }
+  );" >> ./js/${name}.js
+else
+  echo 'Please install solcjs or solc.'
+fi
